@@ -1,3 +1,32 @@
 ﻿@page "/"
 
-<YoutubePlayer PlayerId="player" VideoId="5XZTc774Ij8"/>
+    <div class="form-row">
+        <div class="form-group">
+            <span class="col-form-label">Nombre:</span>
+            <input class="form-control" type="text" @bind="UserName" />
+            <button type="button" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+
+    <YoutubePlayer PlayerId="player" VideoId="@Playing" @ref="miReproductor" />
+
+    <div>
+
+        <input type="text"placeholder="URL o ID de video de YouTube" @bind="Video" />
+        <button class="btn btn-warning" type="button" @onclick="PlayVideo">Reproducir</button>
+        <button class="btn btn-info" type="button" @onclick="AddVideo">Agregar a la lista</button>
+        <label class="custom-control-label">Lista de reproduccion:</label>
+        <select @bind="Playing">
+            @if (PlayList is null)
+            {
+                <option value="" disabled>Cargando...</option>
+            }
+            else
+            {
+                foreach (PlayList item in PlayList)
+                {
+                    <option value="@item.Id">@($"{item.Title}: {item.Url}")</option>
+                }
+            }
+        </select>
+    </div>
