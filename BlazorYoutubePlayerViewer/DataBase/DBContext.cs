@@ -1,5 +1,5 @@
-﻿using BlasorIndexedDb;
-using BlasorIndexedDb.Models;
+﻿using BlazorIndexedDb;
+using BlazorIndexedDb.Models;
 using BlazorYoutubePlayerViewer.DataBase.Entities;
 using BlazorYoutubePlayerViewer.DataBase.Services;
 using Microsoft.JSInterop;

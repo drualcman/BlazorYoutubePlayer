@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorYoutubePlayerViewer", "BlazorYoutubePlayerViewer\BlazorYoutubePlayerViewer.csproj", "{01036755-4A6F-4CFC-97E0-B26A7AA96C84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlasorIndexedDb", "c:\DrUalcman\BlasorIndexedDb\BlasorIndexedDb\BlasorIndexedDb.csproj", "{FE6A9F57-0303-4A1B-AEF2-D5C77A5413D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlasorIndexedDb", "c:\DrUalcman\BlasorIndexedDb\BlasorIndexedDb\BlazorIndexedDb.csproj", "{FE6A9F57-0303-4A1B-AEF2-D5C77A5413D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

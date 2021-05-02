@@ -12,45 +12,13 @@ namespace BlazorYoutubePlayerViewer.Pages
 {
     public partial class Index
     {
-        [Inject]
-        public IJSRuntime JsRuntime { get; set; }
-
-        YoutubePlayer miReproductor;
-
-        string UserName = $"Gest-{Guid.NewGuid()}";
-
-        List<PlayList> PlayList;
 
         string Playing = "qeMFqkcPYcg";
-        string Video;
-
-        DBContext dBContext;
-
-        protected override void OnInitialized()
-        {
-            dBContext = new DBContext(JsRuntime);            
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            PlayList = await dBContext.PlayList.GetAsync();
-        }
 
         void PlayVideo()
         {
             Playing = Helpers.Video.ExtraerId(Video);
         }
 
-        async void AddVideo()
-        {
-            PlayList video = await miReproductor.AddToPlayListAsync(Video);
-            video.Ownner = UserName;
-
-            await dBContext.PlayList.AddAsync(video);
-
-            PlayList.Add(video);
-
-            StateHasChanged();
-        }
     }
 }

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="c:\DrUalcman\BlasorIndexedDb\BlasorIndexedDb\BlasorIndexedDb.csproj" />
+    <ProjectReference Include="c:\DrUalcman\BlasorIndexedDb\BlasorIndexedDb\BlazorIndexedDb.csproj" />
   </ItemGroup>
 
 </Project>

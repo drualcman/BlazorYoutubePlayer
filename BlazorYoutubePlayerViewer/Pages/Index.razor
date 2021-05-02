@@ -1,32 +1,34 @@
 ﻿@page "/"
+@inherits DbContext
 
     <div class="form-row">
         <div class="form-group">
             <span class="col-form-label">Nombre:</span>
             <input class="form-control" type="text" @bind="UserName" />
-            <button type="button" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-primary">Guardar</button>
         </div>
     </div>
 
-    <YoutubePlayer PlayerId="player" VideoId="@Playing" @ref="miReproductor" />
+    <YoutubePlayer PlayerId="player" VideoId="@Playing"/>
 
     <div>
-
         <input type="text"placeholder="URL o ID de video de YouTube" @bind="Video" />
         <button class="btn btn-warning" type="button" @onclick="PlayVideo">Reproducir</button>
         <button class="btn btn-info" type="button" @onclick="AddVideo">Agregar a la lista</button>
         <label class="custom-control-label">Lista de reproduccion:</label>
         <select @bind="Playing">
-            @if (PlayList is null)
+            @if (ListaReproduccion is null)
             {
                 <option value="" disabled>Cargando...</option>
             }
             else
             {
-                foreach (PlayList item in PlayList)
+                foreach (PlayList item in ListaReproduccion)
                 {
-                    <option value="@item.Id">@($"{item.Title}: {item.Url}")</option>
+                    <option value="@item.Id">@($"{item.Title} por {item.Ownner}")</option>
                 }
             }
         </select>
+        <a href="/playlist" class="btn btn-secondary">Administrar lista</a>
     </div>
+ 

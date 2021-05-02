@@ -1,5 +1,5 @@
-﻿using BlasorIndexedDb;
-using BlasorIndexedDb.Models;
+﻿using BlazorIndexedDb;
+using BlazorIndexedDb.Models;
 using BlazorYoutubePlayerViewer.DataBase.Entities;
 using Microsoft.JSInterop;
 using System;
@@ -21,11 +21,17 @@ namespace BlazorYoutubePlayerViewer.DataBase.Services
         public async Task<List<PlayList>> GetAsync() =>
             await DBConn.DbSelect<PlayList>();
 
-        public async Task<List<ResponseJsDb>> AddAsync(PlayList toAdd)
+        public async Task<PlayList> GetAsync(string id) =>
+            await DBConn.DbSelect<PlayList>(id);
+
+        public async Task<ResponseJsDb> AddAsync(PlayList toAdd)
             => await DBConn.DbInsert(toAdd);
 
-        public async Task<List<ResponseJsDb>> UpdateAsync(PlayList toAdd)
+        public async Task<ResponseJsDb> UpdateAsync(PlayList toAdd)
             => await DBConn.DbUpdate(toAdd);
+
+        public async Task<ResponseJsDb> DeleteAsync(string id)
+            => await DBConn.DbDelete<PlayList>(id);
 
         #region helpers
         private async void Init()

@@ -1,0 +1,54 @@
+﻿@page "/playlist"
+@inherits DbContext
+
+<div class="container">
+
+    <a href="/" class="btn btn-success">&lt;&lt;&lt; Volver</a>
+    @if (ShowingDialog)
+    {
+        <EditForm Model="VideoEdit" OnValidSubmit="Guardar" class="form-group">
+            <DataAnnotationsValidator />
+            <input class="form-control" @bind="VideoEdit.Url" placeholder="Url" />
+            <input class="form-control" placeholder="Titulo" @bind="VideoEdit.Title" />
+            <button class="btn btn-primary">Guardar</button>
+            <button class="btn btn-secondary" type="button" @onclick="Cancel">Cancelar</button>
+            <ValidationSummary />
+        </EditForm>
+    }
+    else
+    {
+        @if (ListaReproduccion is null)
+        {
+            <p>Cargando...</p>
+        }
+        else
+        {
+            <div>
+                <input type="text" placeholder="URL o ID de video de YouTube" @bind="Video" />
+                <button class="btn btn-info" type="button" @onclick="AddVideo">Agregar a la lista</button>
+            </div>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Titulo</th>
+                        <th>Agregado por</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                @foreach (PlayList item in ListaReproduccion)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Title</td>
+                        <td>@item.Ownner</td>
+                        <td>
+                            <button type="button" class="btn btn-warning" @onclick="() => EditVideo(item.Id)">M</button>
+                            <button type="button" class="btn btn-danger" @onclick="() => DeleteVideo(item.Id)">X</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    }
+</div>
