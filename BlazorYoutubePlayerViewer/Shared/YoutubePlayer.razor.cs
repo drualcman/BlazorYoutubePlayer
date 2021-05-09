@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorYoutubePlayerViewer.Shared
 {
-    public partial class YoutubePlayer
+    public partial class YoutubePlayer: IDisposable
     {
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
@@ -18,6 +18,57 @@ namespace BlazorYoutubePlayerViewer.Shared
 
         [Parameter]
         public string VideoId { get; set; }
+
+
+        private static Action actionApi;
+        private static Action actionPlayer;
+
+        bool IsApiLoad = false;
+        bool IsPlayerReady = false;
+
+        protected override void OnInitialized()
+        {
+            actionApi = ApiIsLoaded;
+            actionPlayer = PlayerIsReady;
+        }
+
+        private async void ApiIsLoaded()
+        {
+            Console.WriteLine("ApiIsLoaded");
+            IsApiLoad = true;
+            await JsRuntime.InvokeVoidAsync("youtubeApi.loadIFramePlayer");
+            StateHasChanged();
+        }
+
+        private async void PlayerIsReady()
+        {
+            Console.WriteLine("PlayerIsReady");
+
+            if (IsPlayerReady)
+            {
+                if (VideoId is not null)
+                    await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
+            }
+            else
+            {
+                IsPlayerReady = true;
+            }
+            StateHasChanged();
+        }
+
+        [JSInvokable]
+        public static void ApiLoaded()
+        {
+            Console.WriteLine("api loated");
+            actionApi.Invoke();
+        }
+
+        [JSInvokable]
+        public static void PlayerReady()
+        {
+            Console.WriteLine("player ready");
+            actionPlayer.Invoke();
+        }
 
         public Task<PlayList> AddToPlayListAsync(string Video)
         {
@@ -37,11 +88,12 @@ namespace BlazorYoutubePlayerViewer.Shared
         }
 
 
-        protected override async Task OnParametersSetAsync()
-        {
-            if (VideoId is not null)
-                await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
-        }
+        //protected override async Task OnParametersSetAsync()
+        //{
+        //    if (VideoId is not null && IsPlayerReady)
+        //        await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
+        //}
+        
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -51,9 +103,21 @@ namespace BlazorYoutubePlayerViewer.Shared
             }
         }
 
+        //protected override async Task OnInitializedAsync()
+        //{
+        //    await JsRuntime.InvokeVoidAsync("youtubeApi.loadIFramePlayer");
+        //}
+
         async void PlayVideo()
         {
             await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
+        }
+
+        void IDisposable.Dispose()
+        {
+            IsApiLoad = false;
+            IsPlayerReady = false;
+            _ = JsRuntime.InvokeVoidAsync("youtubeApi.dispose");
         }
     }
 }

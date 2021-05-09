@@ -21,7 +21,11 @@ namespace BlazorYoutubePlayerViewer.DataBase
         #region constructor
         public DBContext(IJSRuntime js)
         {
-            _ = js.DbInit("BlazorYoutubePlayer", 1, new string[] { "PlayList" }, "BlazorYoutubePlayerViewer", "BlazorYoutubePlayerViewer.DataBase.Entities");
+            _ = js.DbInit("BlazorYoutubePlayer", 1,
+                new string[] { "PlayList" },                        //Tablas o ObjectStore a utilizar
+                "BlazorYoutubePlayerViewer",                        //Assembly que contiene el namespace para las entidades
+                "BlazorYoutubePlayerViewer.DataBase.Entities"       //namespace que contiene las entidades
+                );
             PlayList = new PlayListService(js);
         }
         #endregion

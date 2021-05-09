@@ -19,6 +19,5 @@ namespace BlazorYoutubePlayerViewer.Pages
         {
             Playing = Helpers.Video.ExtraerId(Video);
         }
-
     }
 }
