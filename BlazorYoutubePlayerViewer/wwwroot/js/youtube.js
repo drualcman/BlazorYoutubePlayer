@@ -1,7 +1,9 @@
-﻿(function () {
+﻿var AssemblyName;
+(function () {
     youtubeApi = {
         // 2. This code loads the IFrame Player API code asynchronously.
-        loadIFramePlayer: () => {
+        loadIFramePlayer: (assemblyName) => {
+            AssemblyName = assemblyName;
             let tag = document.getElementById('youtubeFrame');
             if (!tag) {
                 tag = document.createElement('script');
@@ -34,8 +36,7 @@
 //    after the API code downloads.
 var player;
 function onYouTubeIframeAPIReady() {
-    console.log('onYouTubeIframeAPIReady');
-    DotNet.invokeMethodAsync('BlazorYoutubePlayerViewer', 'ApiLoaded');
+    DotNet.invokeMethodAsync(AssemblyName, 'ApiLoaded');
     player = new YT.Player('player', {
         height: '360',
         width: '640',
@@ -49,7 +50,7 @@ function onYouTubeIframeAPIReady() {
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-    DotNet.invokeMethodAsync('BlazorYoutubePlayerViewer', 'PlayerReady');
+    DotNet.invokeMethodAsync(AssemblyName, 'PlayerReady');
     event.target.playVideo();
 }
 
