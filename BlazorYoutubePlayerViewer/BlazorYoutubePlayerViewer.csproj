@@ -14,4 +14,8 @@
     <ProjectReference Include="c:\DrUalcman\BlasorIndexedDb\BlasorIndexedDb\BlazorIndexedDb.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataBase\Services\" />
+  </ItemGroup>
+
 </Project>

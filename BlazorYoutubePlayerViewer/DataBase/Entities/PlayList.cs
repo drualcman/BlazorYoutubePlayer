@@ -8,7 +8,7 @@ namespace BlazorYoutubePlayerViewer.DataBase.Entities
 {
     public class PlayList
     {
-        [IndexDb(IsKeyPath = true, IsAutoIncremental = false, IsUnique = true)]
+        [Field(IsKeyPath = true, IsAutoIncremental = false, IsUnique = true)]
         public string Id { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }

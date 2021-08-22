@@ -1,7 +1,8 @@
 ﻿using BlazorIndexedDb;
+using BlazorIndexedDb.Configuration;
 using BlazorIndexedDb.Models;
+using BlazorIndexedDb.Store;
 using BlazorYoutubePlayerViewer.DataBase.Entities;
-using BlazorYoutubePlayerViewer.DataBase.Services;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -12,22 +13,15 @@ using System.Threading.Tasks;
 
 namespace BlazorYoutubePlayerViewer.DataBase
 {
-    public class DBContext
+    public class DBContext : StoreContext
     {
         #region properties
-        public PlayListService PlayList { get; private set; }
+        public StoreSet<PlayList> VideoList { get; set; }
         #endregion
 
         #region constructor
-        public DBContext(IJSRuntime js)
-        {
-            _ = js.DbInit("BlazorYoutubePlayer", 1,
-                new string[] { "PlayList" },                        //Tablas o ObjectStore a utilizar
-                "BlazorYoutubePlayerViewer",                        //Assembly que contiene el namespace para las entidades
-                "BlazorYoutubePlayerViewer.DataBase.Entities"       //namespace que contiene las entidades
-                );
-            PlayList = new PlayListService(js);
-        }
+        public DBContext(IJSRuntime js) : base(js, new Settings { DBName = "MyDBName", Version = 1 }) { }
+
         #endregion
 
         #region helpers

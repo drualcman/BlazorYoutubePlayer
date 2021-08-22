@@ -18,18 +18,18 @@ namespace BlazorYoutubePlayerViewer.Pages
         {
             string id = VideoEdit.Id;
             
-            ResponseJsDb result;
+            CommandResponse result;
             if (id != Helpers.Video.ExtraerId(VideoEdit.Url))
             {
                 //video modificado, eliminar el anterior de la base de datos y agregar el nuevo
-                result = await _DBContext.PlayList.DeleteAsync(id);
+                result = await _DBContext.VideoList.DeleteAsync(id);
                 if (result.Result)
                 {
                     VideoEdit.Id = Helpers.Video.ExtraerId(VideoEdit.Url);
-                    result = await _DBContext.PlayList.AddAsync(VideoEdit);
+                    result = await _DBContext.VideoList.AddAsync(VideoEdit);
                 }
             }
-            else  result = await _DBContext.PlayList.UpdateAsync(VideoEdit);
+            else  result = await _DBContext.VideoList.UpdateAsync(VideoEdit);
             if (result.Result)
             {
                 ShowingDialog = false;
@@ -45,7 +45,7 @@ namespace BlazorYoutubePlayerViewer.Pages
 
         async void EditVideo(string id)
         {
-            VideoEdit = await _DBContext.PlayList.GetAsync(id);
+            VideoEdit = await _DBContext.VideoList.SelectAsync(id);
             ShowingDialog = true;
             StateHasChanged();
         }

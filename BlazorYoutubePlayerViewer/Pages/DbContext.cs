@@ -1,7 +1,6 @@
 ﻿using BlazorIndexedDb.Models;
 using BlazorYoutubePlayerViewer.DataBase;
 using BlazorYoutubePlayerViewer.DataBase.Entities;
-using BlazorYoutubePlayerViewer.DataBase.Services;
 using BlazorYoutubePlayerViewer.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -17,17 +16,15 @@ namespace BlazorYoutubePlayerViewer.Pages
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
 
-        public DBContext _DBContext;
+        [Inject]
+        public DBContext _DBContext { get; set; }
+
+
         private YoutubePlayer Reproductor = new YoutubePlayer();
         public List<PlayList> ListaReproduccion;
         public string UserName = "Gest";
         public string Video;
         private bool Clicked;
-
-        protected override void OnInitialized()
-        {
-            _DBContext = new DBContext(JsRuntime);
-        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,7 +33,7 @@ namespace BlazorYoutubePlayerViewer.Pages
 
         public async Task LoadList()
         {
-            ListaReproduccion = await _DBContext.PlayList.GetAsync();
+            ListaReproduccion = await _DBContext.VideoList.SelectAsync();
             StateHasChanged();
         }
 
@@ -47,7 +44,7 @@ namespace BlazorYoutubePlayerViewer.Pages
                 Clicked = true;
                 PlayList video = await Reproductor.AddToPlayListAsync(Video);
                 video.Ownner = UserName;
-                ResponseJsDb result = await _DBContext.PlayList.AddAsync(video);
+                CommandResponse result = await _DBContext.VideoList.AddAsync(video);
                 if (result.Result) ListaReproduccion.Add(video);
                 else await JsRuntime.InvokeVoidAsync("alert", "No se ha podido agregar el video");
                 Clicked = false;
@@ -60,7 +57,7 @@ namespace BlazorYoutubePlayerViewer.Pages
             if (!Clicked)
             {
                 Clicked = true;
-                ResponseJsDb result = await _DBContext.PlayList.DeleteAsync(id);
+                CommandResponse result = await _DBContext.VideoList.DeleteAsync(id);
                 if (result.Result)
                 {
                     PlayList video = ListaReproduccion.Where(v => v.Id == id).FirstOrDefault();
