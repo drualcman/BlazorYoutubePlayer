@@ -32,14 +32,11 @@ namespace BlazorYoutubePlayerViewer.Shared
 
         private void ApiIsLoaded()
         {
-            Console.WriteLine("ApiIsLoaded");
             IsApiLoad = true;
         }
 
         private async void PlayerIsReady()
         {
-            Console.WriteLine("PlayerIsReady");
-
             if (IsPlayerReady)
             {
                 if (VideoId is not null)
@@ -86,14 +83,18 @@ namespace BlazorYoutubePlayerViewer.Shared
             if (firstRender)
             {
                 string assembly = typeof(YoutubePlayer).Assembly.GetName().Name;
-                Console.WriteLine(assembly);
                 await JsRuntime.InvokeVoidAsync("youtubeApi.loadIFramePlayer", typeof(YoutubePlayer).Assembly.GetName().Name);
             }
         }
 
-        async void PlayVideo()
+        public async void PlayVideo()
         {
             await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
+        }
+
+        public async void StopVideo()
+        {
+            await JsRuntime.InvokeVoidAsync("youtubeApi.stopVideo");
         }
 
         void IDisposable.Dispose()

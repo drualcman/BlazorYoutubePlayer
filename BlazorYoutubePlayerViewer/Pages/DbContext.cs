@@ -20,7 +20,7 @@ namespace BlazorYoutubePlayerViewer.Pages
         public DBContext _DBContext { get; set; }
 
 
-        protected YoutubePlayer Reproductor;
+        protected YoutubePlayer Reproductor = new YoutubePlayer();
         public List<PlayList> ListaReproduccion;
         public string UserName = "Gest";
         public string Video;
