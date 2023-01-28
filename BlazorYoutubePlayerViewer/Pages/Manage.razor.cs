@@ -1,12 +1,4 @@
-﻿using BlazorIndexedDb.Models;
-using BlazorYoutubePlayerViewer.DataBase.Entities;
-using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BlazorYoutubePlayerViewer.Pages
+﻿namespace BlazorYoutubePlayerViewer.Pages
 {
     public partial class Manage
     {
@@ -19,17 +11,17 @@ namespace BlazorYoutubePlayerViewer.Pages
             string id = VideoEdit.Id;
             
             CommandResponse result;
-            if (id != Helpers.Video.ExtraerId(VideoEdit.Url))
+            if (id != Helpers.Video.GetYoutubeVideoId(VideoEdit.Url))
             {
                 //video modificado, eliminar el anterior de la base de datos y agregar el nuevo
-                result = await _DBContext.VideoList.DeleteAsync(id);
+                result = await _DBContext.DeleteVideo(id);
                 if (result.Result)
                 {
-                    VideoEdit.Id = Helpers.Video.ExtraerId(VideoEdit.Url);
-                    result = await _DBContext.VideoList.AddAsync(VideoEdit);
+                    VideoEdit.Id = Helpers.Video.GetYoutubeVideoId(VideoEdit.Url);
+                    result = await _DBContext.AddVideo(VideoEdit);
                 }
             }
-            else  result = await _DBContext.VideoList.UpdateAsync(VideoEdit);
+            else  result = await _DBContext.UpdateVideo(VideoEdit);
             if (result.Result)
             {
                 ShowingDialog = false;
@@ -43,11 +35,11 @@ namespace BlazorYoutubePlayerViewer.Pages
             ShowingDialog = false;
         }
 
-        async void EditVideo(string id)
+        async Task EditVideo(string id)
         {
-            VideoEdit = await _DBContext.VideoList.SelectAsync(id);
+            VideoEdit = await _DBContext.GetVideoFromId(id);
             ShowingDialog = true;
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

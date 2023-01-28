@@ -1,13 +1,4 @@
-﻿using BlazorYoutubePlayerViewer.DataBase;
-using BlazorYoutubePlayerViewer.DataBase.Entities;
-using BlazorYoutubePlayerViewer.Shared;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BlazorYoutubePlayerViewer.Pages
+﻿namespace BlazorYoutubePlayerViewer.Pages
 {
     public partial class Index
     {
@@ -16,7 +7,7 @@ namespace BlazorYoutubePlayerViewer.Pages
 
         void PlayVideo()
         {
-            Playing = Helpers.Video.ExtraerId(Video);
+            Playing = Helpers.Video.GetYoutubeVideoId(Video);
         }
     }
 }

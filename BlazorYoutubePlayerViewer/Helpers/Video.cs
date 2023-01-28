@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-
-namespace BlazorYoutubePlayerViewer.Helpers
+﻿namespace BlazorYoutubePlayerViewer.Helpers
 {
     public class Video
     {
 
-        public static string ExtraerId(string Video)
+        public static string GetYoutubeVideoId(string Video)
         {
             string id;
             if (Video.ToLower().Contains("http") || Video.ToLower().Contains("youtu"))

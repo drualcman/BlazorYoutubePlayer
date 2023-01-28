@@ -1,0 +1,22 @@
+﻿global using System;
+global using System.Web;
+global using System.Linq;
+global using System.Net.Http;
+global using System.Threading.Tasks;
+global using System.Collections.Generic;
+global using System.Collections.Specialized;
+global using Microsoft.JSInterop;
+global using Microsoft.AspNetCore.Components;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+global using BlazorIndexedDb.Store;
+global using BlazorIndexedDb.Models;
+global using BlazorIndexedDb.Attributes;
+global using BlazorYoutubePlayerViewer.Shared;
+global using BlazorIndexedDb.Configuration;
+global using BlazorYoutubePlayerViewer.Entities.Models;
+global using BlazorYoutubePlayerViewer.Entities.Interfaces;
+global using BlazorYoutubePlayerViewer.BusinessObjects.Mappers;
+global using BlazorYoutubePlayerViewer.InterfaceApadters.Gateways;
+global using BlazorYoutubePlayerViewer.InterfaceApadters.Gateways.Repositories;
+
