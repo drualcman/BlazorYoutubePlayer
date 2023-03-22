@@ -1,3 +1,5 @@
+using BlazorIndexedDb;
+
 namespace BlazorYoutubePlayerViewer
 {
     public class Program
@@ -8,10 +10,12 @@ namespace BlazorYoutubePlayerViewer
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddScoped<DBContext>();
+            builder.AddBlazorIndexedDbContext<DBContext>();
             builder.Services.AddScoped<IYoutubePlayerRepository, YoutubePlayerRepository>();
 
-            await builder.Build().RunAsync();
+            var app = builder.Build();
+            await app.UseBlazorIndexedDbContext<DBContext>();
+            await app.RunAsync();
         }
     }
 }
