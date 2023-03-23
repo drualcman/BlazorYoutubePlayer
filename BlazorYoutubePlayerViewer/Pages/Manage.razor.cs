@@ -5,8 +5,8 @@
         bool ShowingDialog;
 
         PlayList VideoEdit = new PlayList();
-
-        async void Guardar()
+                       
+        async Task Guardar()
         {
             string id = VideoEdit.Id;
             
@@ -27,7 +27,7 @@
                 ShowingDialog = false;
                 await LoadList();
             }
-            else await JsRuntime.InvokeVoidAsync("alert", "No se ha podido guardar los cambios.");
+            else await JsRuntime.InvokeVoidAsync("alert", $"No se ha podido guardar los cambios. {result.Message}");
         }
 
         void Cancel()
@@ -39,7 +39,6 @@
         {
             VideoEdit = await _DBContext.GetVideoFromId(id);
             ShowingDialog = true;
-            await InvokeAsync(StateHasChanged);
         }
     }
 }

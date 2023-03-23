@@ -1,4 +1,6 @@
-﻿namespace BlazorYoutubePlayerViewer.Pages
+﻿using BlazorYoutubePlayerViewer.Helpers;
+
+namespace BlazorYoutubePlayerViewer.Pages
 {
     public partial class DbContext : ComponentBase
     {
@@ -23,7 +25,6 @@
         {
             await Task.Delay(50);
             ListaReproduccion = await _DBContext.GetVideos();
-            await InvokeAsync(StateHasChanged);
         }
 
         public async Task AddVideo()
@@ -36,8 +37,8 @@
                 CommandResponse result = await _DBContext.AddVideo(video);
                 if (result.Result) ListaReproduccion.Add(video);
                 else await JsRuntime.InvokeVoidAsync("alert", $"No se ha podido agregar el video. {result.Message}");
+                Video = string.Empty;
                 Clicked = false;
-                await InvokeAsync(StateHasChanged);
             }
         }
 
@@ -54,7 +55,6 @@
                 }
                 else await JsRuntime.InvokeVoidAsync("alert", "No se ha podido borrar el video");
                 Clicked = false;
-                await InvokeAsync(StateHasChanged);
             }
         }
     }
