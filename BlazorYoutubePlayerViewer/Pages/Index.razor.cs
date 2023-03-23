@@ -5,9 +5,10 @@
 
         string Playing = "qeMFqkcPYcg";
 
-        void PlayVideo()
+        async Task PlayVideo()
         {
             Playing = Helpers.Video.GetYoutubeVideoId(Video);
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

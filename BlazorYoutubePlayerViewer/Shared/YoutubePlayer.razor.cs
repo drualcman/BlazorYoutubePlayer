@@ -1,16 +1,12 @@
 ﻿namespace BlazorYoutubePlayerViewer.Shared
 {
-    public partial class YoutubePlayer: IDisposable, IAsyncDisposable
+    public partial class YoutubePlayer : IDisposable, IAsyncDisposable
     {
-        [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        [Inject] public IJSRuntime JsRuntime { get; set; }
 
-        [Parameter]
-        public string PlayerId { get; set; }
+        [Parameter] public string PlayerId { get; set; }
 
-        [Parameter]
-        public string VideoId { get; set; }
-
+        [Parameter] public string VideoId { get; set; }
 
         private static Action ActionApi;
         private static Action ActionPlayer;
@@ -24,23 +20,25 @@
             ActionPlayer = PlayerIsReady;
         }
 
-        private void ApiIsLoaded()
+        protected override async Task OnParametersSetAsync()
+        {
+            await PlayVideo();
+        }
+
+        private async void ApiIsLoaded()
         {
             IsApiLoad = true;
+            await InvokeAsync(StateHasChanged);
         }
 
         private async void PlayerIsReady()
         {
-            if (IsPlayerReady)
-            {
-                if (VideoId is not null)
-                    await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
-            }
-            else
+            if(!IsPlayerReady)
             {
                 IsPlayerReady = true;
+                await InvokeAsync(StateHasChanged);
             }
-            await InvokeAsync(StateHasChanged);
+            await PlayVideo();
         }
 
         [JSInvokable]
@@ -74,7 +72,7 @@
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
+            if(firstRender)
             {
                 string assembly = typeof(YoutubePlayer).Assembly.GetName().Name;
                 await JsRuntime.InvokeVoidAsync("youtubeApi.loadIFramePlayer", typeof(YoutubePlayer).Assembly.GetName().Name);
@@ -83,7 +81,11 @@
 
         public async Task PlayVideo()
         {
-            await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
+            if(IsPlayerReady)
+            {
+                if(VideoId is not null)
+                    await JsRuntime.InvokeVoidAsync("youtubeApi.payVideo", VideoId);
+            }
         }
 
         public async Task StopVideo()
@@ -91,13 +93,13 @@
             await JsRuntime.InvokeVoidAsync("youtubeApi.stopVideo");
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
             IsApiLoad = false;
             IsPlayerReady = false;
         }
 
-        public async ValueTask DisposeAsync() 
+        public async ValueTask DisposeAsync()
         {
             await JsRuntime.InvokeVoidAsync("youtubeApi.dispose");
             Dispose();
