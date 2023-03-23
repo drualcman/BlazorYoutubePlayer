@@ -7,7 +7,7 @@
         #endregion
 
         #region constructor
-        public DBContext(IJSRuntime js) : base(js, new Settings { DBName = "MyDBName", Version = 1 }) { Settings.EnableDebug = true; }
+        public DBContext(IJSRuntime js) : base(js, new Settings { DBName = "MyDBName", Version = 2 }) { Settings.EnableDebug = true; }
         #endregion 
 
         #region helpers
